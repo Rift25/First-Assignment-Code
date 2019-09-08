@@ -5,19 +5,23 @@ using UnityEngine;
 public class EnemyFollowsPlayer : MonoBehaviour
 {
 
-    public GameObject Player;
-    public float movementSpeed = 4;
+    public Transform target;
+    public float movementSpeed;
+    
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(Player.transform);
-        transform.position += transform.forward * movementSpeed * Time.deltaTime;
+        float distance = Vector2.Distance(target.position, transform.position);
+        if(distance > 6)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, target.position, movementSpeed * Time.deltaTime);
+        }
     }
 }
